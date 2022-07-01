@@ -1,0 +1,31 @@
+name: CI
+
+on: push
+
+jobs:
+  build:
+    name: Build the C++ project 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout files in the repository
+        uses: actions/checkout@v3
+
+      - name: Compile 
+        run: cd src && make
+
+  test:
+    name: Run the C++ project tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout files in the repository
+        uses: actions/checkout@v3
+
+      - name: Compile 
+        run: |
+          cd src
+          make
+          ./main 1 7 -t ../output/kruskal_classes.txt
+          ./main 2 7 -t ../output/prim_classes.txt
+
+
+
