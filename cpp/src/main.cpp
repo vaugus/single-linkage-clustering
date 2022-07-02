@@ -10,7 +10,7 @@
 
 using namespace std;
 
-main (int argc, char **argv) {
+int main(int argc, char **argv) {
 
     if (argc <= 2) {
         cout << "You must choose between Kruskal (1) or Prim (2) and enter the number of clusters..." << endl;
@@ -53,4 +53,6 @@ main (int argc, char **argv) {
 
     clustering->classify(method);
     clustering->printClusters();
+
+    return 0;
 }
