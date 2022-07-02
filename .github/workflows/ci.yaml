@@ -3,29 +3,41 @@ name: CI
 on: push
 
 jobs:
-  build-cpp:
-    name: Build the C++ project 
+  cpp:
+    name: Build and test the C++ project 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout files in the repository
         uses: actions/checkout@v3
 
-      - name: Compile 
+      - name: Build 
         run: cd cpp/src && make
 
-  test-cpp:
-    name: Run the C++ project tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout files in the repository
-        uses: actions/checkout@v3
-
-      - name: Compile 
+      - name: Test 
         run: |
           cd cpp/src
-          make
           ./main 1 7 -t ../output/kruskal_classes.txt
           ./main 2 7 -t ../output/prim_classes.txt
 
+  java:
+    name: Build and test the Java project 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout files in the repository
+        uses: actions/checkout@v3
 
+      - name: Setup Java 
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
+      - name: Build 
+        run: |
+          cd java/single-linkage-clustering 
+          mvn clean package
+
+      - name: Test 
+        run: |
+          cd java/single-linkage-clustering
+          mvn clean verify
