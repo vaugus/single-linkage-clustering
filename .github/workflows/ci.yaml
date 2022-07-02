@@ -3,7 +3,7 @@ name: CI
 on: push
 
 jobs:
-  build:
+  build-cpp:
     name: Build the C++ project 
     runs-on: ubuntu-latest
     steps:
@@ -11,9 +11,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Compile 
-        run: cd src && make
+        run: cd cpp/src && make
 
-  test:
+  test-cpp:
     name: Run the C++ project tests
     runs-on: ubuntu-latest
     steps:
@@ -22,7 +22,7 @@ jobs:
 
       - name: Compile 
         run: |
-          cd src
+          cd cpp/src
           make
           ./main 1 7 -t ../output/kruskal_classes.txt
           ./main 2 7 -t ../output/prim_classes.txt
