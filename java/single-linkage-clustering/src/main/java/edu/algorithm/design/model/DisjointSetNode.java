@@ -1,4 +1,4 @@
-package edu.algorithm.design.datastructures;
+package edu.algorithm.design.model;
 
 public class DisjointSetNode {
 

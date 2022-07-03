@@ -2,21 +2,19 @@ package edu.algorithm.design.datastructures;
 
 import edu.algorithm.design.model.HeapNode;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.Arrays;
 
 public class BinaryHeap {
 
-    private Queue<HeapNode> priorityQueue = new PriorityQueue<>();
+    private final HeapNode[] priorityQueue;
     private int heapSize;
-    List<Integer> indexMap;
+    private final int[] indexMap;
 
-    public BinaryHeap(int heapSize) {
+    public BinaryHeap(final int heapSize) {
         this.heapSize = heapSize;
-        this.indexMap = new ArrayList<Integer>(Collections.nCopies(heapSize, 0));
+        this.priorityQueue = new HeapNode[heapSize];
+        this.indexMap = new int[heapSize];
+        Arrays.fill(this.indexMap, 0);
     }
 
     public void bubbleUp(int index) {
@@ -24,7 +22,6 @@ public class BinaryHeap {
     }
 
     public void bubbleDown(int index) {
-
     }
 
     public HeapNode extractMin() {
@@ -36,4 +33,12 @@ public class BinaryHeap {
     }
 
     public void heapify(int startIndex) {}
+
+    public HeapNode[] getPriorityQueue() {
+        return priorityQueue;
+    }
+
+    public int[] getIndexMap() {
+        return indexMap;
+    }
 }
