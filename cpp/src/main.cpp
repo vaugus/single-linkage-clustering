@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
     }
 
     clustering->classify(method);
-    clustering->printClusters();
+    // clustering->printClusters();
 
     return 0;
 }
