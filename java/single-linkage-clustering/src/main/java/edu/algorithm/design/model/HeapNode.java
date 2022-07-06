@@ -4,6 +4,29 @@ public class HeapNode implements Comparable<HeapNode> {
     private int index;
     private double priority;
 
+    public static class Builder {
+        private int index;
+        private double priority;
+
+        public Builder withIndex(int index) {
+            this.index = index;
+            return this;
+        }
+
+        public Builder withPriority(double priority) {
+            this.priority = priority;
+            return this;
+        }
+
+        public HeapNode build() {
+            HeapNode heapNode = new HeapNode();
+            heapNode.index = this.index;
+            heapNode.priority = this.priority;
+
+            return heapNode;
+        }
+    }
+
     public double getPriority() {
         return priority;
     }
@@ -14,6 +37,11 @@ public class HeapNode implements Comparable<HeapNode> {
 
     public int getIndex() {
         return index;
+    }
+
+    @Override
+    public String toString() {
+        return "HeapNode [index = " + index + ", priority = " + priority + "]";
     }
 
     public void setIndex(int index) {

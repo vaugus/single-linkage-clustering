@@ -12,6 +12,12 @@ public abstract class MockUtils {
         return heapNode;
     }
 
+    public static HeapNode createHeapNode(double priority) {
+        return new HeapNode.Builder()
+            .withPriority(priority)
+            .build();
+    }
+
     public static PriorityQueue createPriorityQueue(HeapNode... heapNodes) {
         PriorityQueue queue = new PriorityQueue(heapNodes.length);
         for (int i = 0; i < heapNodes.length; i++) {

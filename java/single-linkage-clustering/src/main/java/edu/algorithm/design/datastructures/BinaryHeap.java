@@ -1,18 +1,19 @@
 package edu.algorithm.design.datastructures;
 
 import edu.algorithm.design.model.HeapNode;
+import edu.algorithm.design.model.PriorityQueue;
 
 import java.util.Arrays;
 
 public class BinaryHeap {
 
-    private final HeapNode[] priorityQueue;
+    private final PriorityQueue priorityQueue;
     private int heapSize;
     private final int[] indexMap;
 
     public BinaryHeap(final int heapSize) {
         this.heapSize = heapSize;
-        this.priorityQueue = new HeapNode[heapSize];
+        this.priorityQueue = new PriorityQueue(heapSize);
         this.indexMap = new int[heapSize];
         Arrays.fill(this.indexMap, 0);
     }
@@ -22,10 +23,31 @@ public class BinaryHeap {
     }
 
     public void bubbleDown(int index) {
+        int left = 2 * index + 1;
+        int right = 2 * index + 2;
+        int minIndex = index;
+
+        if (left < heapSize && priorityQueue.hasLowerPriority(left, minIndex))
+            minIndex = left;
+
+        if (right < heapSize && priorityQueue.hasLowerPriority(right, minIndex))
+            minIndex = right;
+
+        if (minIndex != index) {
+            indexMap[priorityQueue.at(index).getIndex()] = minIndex;
+            indexMap[priorityQueue.at(minIndex).getIndex()] = index;
+            priorityQueue.swap(index, minIndex);
+            bubbleDown(minIndex);
+        }
     }
 
     public HeapNode extractMin() {
-        return null;
+        indexMap[priorityQueue.at(0).getIndex()] = heapSize - 1;
+        indexMap[priorityQueue.at(heapSize - 1).getIndex()] = 0;
+        priorityQueue.swap(0, heapSize - 1);
+        heapSize--;
+        bubbleDown(0);
+        return priorityQueue.at(heapSize);
     }
 
     public void decreaseKey(int index, float priority) {
@@ -34,7 +56,7 @@ public class BinaryHeap {
 
     public void heapify(int startIndex) {}
 
-    public HeapNode[] getPriorityQueue() {
+    public PriorityQueue getPriorityQueue() {
         return priorityQueue;
     }
 
