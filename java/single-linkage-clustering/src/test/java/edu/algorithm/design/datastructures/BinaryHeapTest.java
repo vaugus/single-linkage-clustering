@@ -4,7 +4,6 @@ package edu.algorithm.design.datastructures;
 import org.junit.jupiter.api.Test;
 
 import edu.algorithm.design.model.HeapNode;
-import edu.algorithm.design.model.PriorityQueue;
 
 import static edu.algorithm.design.data.MockUtils.createHeapNode;
 

@@ -7,6 +7,8 @@ import java.util.Arrays;
 
 public class BinaryHeap {
 
+    private static final Double INFINITY = Double.MAX_VALUE;
+
     private final PriorityQueue priorityQueue;
     private int heapSize;
     private final int[] indexMap;
@@ -19,7 +21,14 @@ public class BinaryHeap {
     }
 
     public void bubbleUp(int index) {
-
+        int parent = (index - 1) / 2;
+        while(index >= 0 && priorityQueue.hasLowerPriority(index, parent)) {
+            indexMap[priorityQueue.at(index).getIndex()] = parent;
+            indexMap[priorityQueue.at(parent).getIndex()] = index;
+            priorityQueue.swap(index, parent);
+            index = parent;
+            parent = (index - 1) / 2;
+        }
     }
 
     public void bubbleDown(int index) {
@@ -50,11 +59,27 @@ public class BinaryHeap {
         return priorityQueue.at(heapSize);
     }
 
-    public void decreaseKey(int index, float priority) {
+    public void decreaseKey(int index, double priority) {
+        double temp = priorityQueue.at(index).getPriority();
+        priorityQueue.at(index).setPriority(priority);
 
+        if (priority < temp)
+            bubbleUp(index);
+        else
+           bubbleDown(index);
     }
 
-    public void heapify(int startIndex) {}
+    public void heapify(int startIndex) {
+        for (int i = 0; i < heapSize; i++) {
+            priorityQueue.at(i).setPriority(INFINITY);
+            priorityQueue.at(i).setIndex(i);
+        }
+
+        priorityQueue.at(0).setPriority(0.0);
+        priorityQueue.at(startIndex).setIndex(startIndex);
+    
+        for (int i = heapSize - 1; i >= 0; i--) bubbleDown(i);
+    }
 
     public PriorityQueue getPriorityQueue() {
         return priorityQueue;
