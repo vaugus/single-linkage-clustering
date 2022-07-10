@@ -4,6 +4,7 @@ package edu.algorithm.design.datastructures;
 import org.junit.jupiter.api.Test;
 
 import edu.algorithm.design.model.HeapNode;
+import edu.algorithm.design.model.PriorityQueue;
 
 import static edu.algorithm.design.data.MockUtils.createHeapNode;
 
@@ -34,37 +35,105 @@ public class BinaryHeapTest {
     @Test
     public void testBubbleDownWorstCase() {
         heap = new BinaryHeap(3);
-        setupBubbleDownWorstCase();
+        setupHeapReverseOrder();
 
         assertPriorityQueueOrder(2, 1, 0);
-
         heap.bubbleDown(0);
-
         assertPriorityQueueOrder(0, 1, 2);
     }
     
     @Test
-    public void testBubbleBestCase() {
+    public void testBubbleDownBestCase() {
         heap = new BinaryHeap(3);
-        setupBubbleDownBestCase();
+        setupHeapCorrectOrder();
 
         assertPriorityQueueOrder(0, 1, 2);
-
         heap.bubbleDown(0);
-
         assertPriorityQueueOrder(0, 1, 2);
     }
 
     @Test
-    public void testBubbleAverageCase() {
+    public void testBubbleDownAverageCase() {
         heap = new BinaryHeap(3);
-        setupBubbleAverageCase();
+        setupHeapIncorrectOrder();
 
         assertPriorityQueueOrder(1, 0, 2);
-
         heap.bubbleDown(0);
+        assertPriorityQueueOrder(0, 1, 2);
+    }
+
+    @Test
+    public void testBubbleUpBestCase() {
+        heap = new BinaryHeap(3);
+        setupHeapCorrectOrder();
 
         assertPriorityQueueOrder(0, 1, 2);
+        heap.bubbleUp(0);
+        assertPriorityQueueOrder(0, 1, 2);
+    }
+    
+    @Test
+    public void testBubbleUpAverageCase() {
+        heap = new BinaryHeap(3);
+        setupHeapIncorrectOrder();
+
+        assertPriorityQueueOrder(1, 0, 2);
+        heap.bubbleDown(0);
+        assertPriorityQueueOrder(0, 1, 2);
+    }
+
+    @Test
+    public void testBubbleUpWorstCase() {
+        heap = new BinaryHeap(3);
+        setupHeapReverseOrder();
+
+        assertPriorityQueueOrder(2, 1, 0);
+        heap.bubbleDown(0);
+        assertPriorityQueueOrder(0, 1, 2);
+    }
+
+    @Test
+    public void testExtractMin() {
+        heap = new BinaryHeap(3);
+
+        setupHeapReverseOrder();
+        heap.bubbleDown(0);
+        assertEquals(priorityFive.getPriority(), heap.extractMin().getPriority());
+        
+        setupHeapIncorrectOrder();
+        heap.bubbleDown(0);
+        assertEquals(priorityFive.getPriority(), heap.extractMin().getPriority());
+
+        setupHeapCorrectOrder();
+        heap.bubbleDown(0);
+        assertEquals(priorityFive.getPriority(), heap.extractMin().getPriority());
+    }
+
+    @Test
+    public void testDecreaseKey() {
+        heap = new BinaryHeap(3);
+
+        setupHeapCorrectOrder();
+        assertEquals(priorityTen, heap.getPriorityQueue().at(1));
+
+        heap.decreaseKey(1, 2.0);
+
+        assertEquals(1, heap.getPriorityQueue().at(0).getIndex());
+        assertEquals(2.0, heap.getPriorityQueue().at(0).getPriority());
+    }
+
+    @Test
+    public void testHeapify() {
+        heap = new BinaryHeap(3);
+
+        heap.heapify(0);
+
+        assertEquals(0, heap.getPriorityQueue().at(0).getIndex());
+        assertEquals(0.0, heap.getPriorityQueue().at(0).getPriority());
+        assertEquals(1, heap.getPriorityQueue().at(1).getIndex());
+        assertEquals(Double.MAX_VALUE, heap.getPriorityQueue().at(1).getPriority());
+        assertEquals(2, heap.getPriorityQueue().at(2).getIndex());
+        assertEquals(Double.MAX_VALUE, heap.getPriorityQueue().at(2).getPriority());
     }
 
     private void assertPriorityQueueOrder(int... order) {
@@ -73,19 +142,19 @@ public class BinaryHeapTest {
         assertEquals(heap.getPriorityQueue().at(order[2]), priorityTwenty);
     }
     
-    private void setupBubbleDownWorstCase() {
-        setupBubbleDown(2, 1, 0);
+    private void setupHeapReverseOrder() {
+        setupQueueState(2, 1, 0);
     }
 
-    private void setupBubbleDownBestCase() {
-        setupBubbleDown(0, 1, 2);
+    private void setupHeapCorrectOrder() {
+        setupQueueState(0, 1, 2);
     }
 
-    private void setupBubbleAverageCase() {
-        setupBubbleDown(1, 0, 2);
+    private void setupHeapIncorrectOrder() {
+        setupQueueState(1, 0, 2);
     }
     
-    private void setupBubbleDown(int... order) {
+    private void setupQueueState(int... order) {
         priorityFive.setIndex(order[0]);
         priorityTen.setIndex(order[1]);
         priorityTwenty.setIndex(order[2]);

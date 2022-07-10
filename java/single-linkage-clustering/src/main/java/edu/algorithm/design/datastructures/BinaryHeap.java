@@ -51,6 +51,13 @@ public class BinaryHeap {
     }
 
     public HeapNode extractMin() {
+        if (heapSize <= 0) return null;
+
+        if (heapSize == 1) {
+            heapSize--;
+            return priorityQueue.at(0);
+        }
+  
         indexMap[priorityQueue.at(0).getIndex()] = heapSize - 1;
         indexMap[priorityQueue.at(heapSize - 1).getIndex()] = 0;
         priorityQueue.swap(0, heapSize - 1);
@@ -60,19 +67,21 @@ public class BinaryHeap {
     }
 
     public void decreaseKey(int index, double priority) {
-        double temp = priorityQueue.at(index).getPriority();
+        double currentPriority = priorityQueue.at(index).getPriority();
         priorityQueue.at(index).setPriority(priority);
 
-        if (priority < temp)
+        if (priority < currentPriority)
             bubbleUp(index);
         else
-           bubbleDown(index);
+            bubbleDown(index);
     }
 
     public void heapify(int startIndex) {
         for (int i = 0; i < heapSize; i++) {
-            priorityQueue.at(i).setPriority(INFINITY);
-            priorityQueue.at(i).setIndex(i);
+            priorityQueue.insert(i, new HeapNode.Builder()
+                                                .withIndex(i)
+                                                .withPriority(INFINITY)
+                                                .build());
         }
 
         priorityQueue.at(0).setPriority(0.0);
@@ -88,4 +97,24 @@ public class BinaryHeap {
     public int[] getIndexMap() {
         return indexMap;
     }
+
+    @Override
+    public String toString() {
+        return "BinaryHeap [heapSize=" + heapSize + ", indexMap=" + Arrays.toString(indexMap) + ", priorityQueue="
+                + priorityQueue + "]";
+    }
+
+    
 }
+
+// TODO
+// Easier extractMin implementation
+
+// // Store the minimum value, and remove it from heap
+// HeapNode root = priorityQueue.at(0);
+// priorityQueue.insert(0, priorityQueue.at(heapSize - 1));
+// heapSize--;
+
+// heapify(0);
+
+// return root;

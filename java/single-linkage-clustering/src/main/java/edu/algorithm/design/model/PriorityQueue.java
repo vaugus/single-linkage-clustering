@@ -36,4 +36,9 @@ public class PriorityQueue {
     public boolean hasLowerPriority(int a, int b) {
         return queue[a].compareTo(queue[b]) == -1;
     }
+
+    @Override
+    public String toString() {
+        return "PriorityQueue [queue=" + Arrays.toString(queue) + "]";
+    }
 }
